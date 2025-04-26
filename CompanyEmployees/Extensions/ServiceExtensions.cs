@@ -1,4 +1,6 @@
-﻿namespace CompanyEmployees.Extensions
+﻿using LoggingService;
+
+namespace CompanyEmployees.Extensions
 {
     public static class ServiceExtensions
     {
@@ -20,5 +22,8 @@
                 //options.AllowSynchronousIO = true;
             });
         }
+
+        public static void ConfigureLoggerService(this IServiceCollection services) =>
+            services.AddSingleton<ILoggerManager, LoggerManager>();
     }
 }
