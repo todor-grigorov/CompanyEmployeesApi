@@ -21,6 +21,11 @@ namespace CompanyEmployees.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            _logger.LogDebug("This is a debug message.");
+            _logger.LogInformation("This is an information.");
+            _logger.LogWarning("This is a warn message.");
+            _logger.LogError("This is an error message.");
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
