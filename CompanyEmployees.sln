@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService", "LoggingSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyEmployees.Core.Domain", "CompanyEmployees.Core.Domain\CompanyEmployees.Core.Domain.csproj", "{DF4AB6E4-28AE-4AFF-9720-4F3A8E3F93CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyEmployees.Infrastructure.Persistence", "CompanyEmployees.Infrastructure.Persistence\CompanyEmployees.Infrastructure.Persistence.csproj", "{67072AD8-1277-4D82-B589-34E3B43A9302}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DF4AB6E4-28AE-4AFF-9720-4F3A8E3F93CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF4AB6E4-28AE-4AFF-9720-4F3A8E3F93CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF4AB6E4-28AE-4AFF-9720-4F3A8E3F93CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67072AD8-1277-4D82-B589-34E3B43A9302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67072AD8-1277-4D82-B589-34E3B43A9302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67072AD8-1277-4D82-B589-34E3B43A9302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67072AD8-1277-4D82-B589-34E3B43A9302}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
