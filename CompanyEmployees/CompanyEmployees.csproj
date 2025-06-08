@@ -1,12 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>fd2ad6d5-d9a2-4083-93d9-4a71e043e373</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CompanyEmployees.Infrastructure.Persistence\CompanyEmployees.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\LoggingService\LoggingService.csproj" />
   </ItemGroup>
 

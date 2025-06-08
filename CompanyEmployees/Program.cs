@@ -1,8 +1,14 @@
 using CompanyEmployees.Extensions;
+using CompanyEmployees.Infrastructure.Persistence;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration["ConnectionStrings:postgresConnection"];
+
+builder.Services.AddDbContext<RepositoryContext>(options =>
+    options.UseNpgsql(connectionString));
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
