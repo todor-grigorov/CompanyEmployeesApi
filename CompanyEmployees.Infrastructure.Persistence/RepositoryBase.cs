@@ -11,7 +11,7 @@ namespace CompanyEmployees.Infrastructure.Persistence
         protected RepositoryContext RepositoryContext;
 
         public RepositoryBase(RepositoryContext repositoryContext)
-         =>   RepositoryContext = repositoryContext;
+                => RepositoryContext = repositoryContext;
 
        
         public IQueryable<T> FindAll(bool trackChanges) => !trackChanges
