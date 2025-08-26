@@ -1,4 +1,6 @@
-﻿using CompanyEmployees.Infrastructure.Persistence.Repositories;
+﻿using CompanyEmployees.Core.Services;
+using CompanyEmployees.Core.Services.Abstractions;
+using CompanyEmployees.Infrastructure.Persistence.Repositories;
 using LoggingService;
 
 namespace CompanyEmployees.Extensions
@@ -29,5 +31,8 @@ namespace CompanyEmployees.Extensions
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigureServiceManager(this IServiceCollection services) =>
+            services.AddScoped<IServiceManager, ServiceManager>();
     }
 }
