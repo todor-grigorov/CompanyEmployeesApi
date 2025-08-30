@@ -1,7 +1,9 @@
 ﻿using CompanyEmployees.Core.Services;
 using CompanyEmployees.Core.Services.Abstractions;
+using CompanyEmployees.Infrastructure.Persistence;
 using CompanyEmployees.Infrastructure.Persistence.Repositories;
 using LoggingService;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompanyEmployees.Extensions
 {
@@ -25,6 +27,10 @@ namespace CompanyEmployees.Extensions
                 //options.AllowSynchronousIO = true;
             });
         }
+
+        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+            services.AddDbContext<RepositoryContext>(opts =>
+                opts.UseNpgsql(configuration.GetConnectionString("postgresConnection")));
 
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerManager, LoggerManager>();
