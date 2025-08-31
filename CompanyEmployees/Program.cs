@@ -15,7 +15,8 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(CompanyEmployees.Infrastructure.Presentation.AssemblyReference).Assembly);
 
 builder.Host.UseSerilog((hostContext, configuration) =>
 {
