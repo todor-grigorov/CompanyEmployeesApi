@@ -1,7 +1,5 @@
 using CompanyEmployees.Extensions;
-using CompanyEmployees.Infrastructure.Persistence;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +10,7 @@ builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 
 // Add services to the container.
 
