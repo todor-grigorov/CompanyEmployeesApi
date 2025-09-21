@@ -1,3 +1,4 @@
+using CompanyEmployees;
 using CompanyEmployees.Extensions;
 using LoggingService;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -12,6 +13,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 // Add services to the container.
 
@@ -25,8 +27,9 @@ builder.Host.UseSerilog((hostContext, configuration) =>
 
 var app = builder.Build();
 
-var logger = app.Services.GetRequiredService<ILoggerManager>();
-app.ConfigureExceptionHandler(logger);
+//var logger = app.Services.GetRequiredService<ILoggerManager>();
+//app.ConfigureExceptionHandler(logger);
+app.UseExceptionHandler(opt => { });
 
 if (app.Environment.IsProduction())
 {
