@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CompanyEmployees.Core.Domain.Entities;
+using CompanyEmployees.Core.Domain.Exceptions;
 using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Infrastructure.Persistence.Repositories;
 using LoggingService;
@@ -32,7 +33,9 @@ namespace CompanyEmployees.Core.Services
         public CompanyDto GetCompany(Guid id, bool trackChanges)
         {
             var company = _repository.Company.GetCompany(id, trackChanges);
-            //Check if the company is null 
+
+            if (company is null)
+                throw new CompanyNotFoundException(id);
 
             var companyDto = _mapper.Map<CompanyDto>(company);
 
