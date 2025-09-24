@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CompanyEmployees.Core.Domain.Entities;
 using CompanyEmployees.Core.Domain.Exceptions;
 using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Infrastructure.Persistence.Repositories;
