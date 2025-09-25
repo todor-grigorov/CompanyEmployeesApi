@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using CompanyEmployees.Core.Domain.Exceptions;
 using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Infrastructure.Persistence.Repositories;
 using LoggingService;
+using Shared.DataTransferObjects;
 
 namespace CompanyEmployees.Core.Services
 {
@@ -16,6 +18,16 @@ namespace CompanyEmployees.Core.Services
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+        }
+
+        public IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            if (company is null)
+                    throw new CompanyNotFoundException(companyId);
+            var employeesFromDb = _repository.Employee.GetEmployees(companyId, trackChanges);
+            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
+            return employeesDto;
         }
     }
 }
