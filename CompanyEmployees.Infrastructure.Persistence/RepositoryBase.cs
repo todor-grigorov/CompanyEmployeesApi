@@ -1,7 +1,6 @@
 ﻿using CompanyEmployees.Core.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace CompanyEmployees.Infrastructure.Persistence
