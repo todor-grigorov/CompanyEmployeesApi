@@ -1,6 +1,5 @@
 using CompanyEmployees;
 using CompanyEmployees.Extensions;
-using LoggingService;
 using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 
