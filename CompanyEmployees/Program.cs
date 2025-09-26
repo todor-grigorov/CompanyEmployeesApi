@@ -17,7 +17,10 @@ builder.Services.AddProblemDetails();
 
 // Add services to the container.
 
-builder.Services.AddControllers()
+builder.Services.AddControllers(config =>
+{
+    config.RespectBrowserAcceptHeader = true;
+}).AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(CompanyEmployees.Infrastructure.Presentation.AssemblyReference).Assembly);
 
 builder.Host.UseSerilog((hostContext, configuration) =>
