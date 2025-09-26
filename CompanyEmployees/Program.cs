@@ -20,6 +20,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;
+    config.ReturnHttpNotAcceptable = true;
 }).AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(CompanyEmployees.Infrastructure.Presentation.AssemblyReference).Assembly);
 
