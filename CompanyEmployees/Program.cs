@@ -21,8 +21,10 @@ builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
-}).AddXmlDataContractSerializerFormatters()
-    .AddApplicationPart(typeof(CompanyEmployees.Infrastructure.Presentation.AssemblyReference).Assembly);
+})
+  .AddXmlDataContractSerializerFormatters()
+  .AddCustomCSVFormatter()
+  .AddApplicationPart(typeof(CompanyEmployees.Infrastructure.Presentation.AssemblyReference).Assembly);
 
 builder.Host.UseSerilog((hostContext, configuration) =>
 {
