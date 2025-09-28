@@ -13,6 +13,8 @@ namespace CompanyEmployees
                     opt => opt.MapFrom(x => $"{x.Address} {x.Country}"));
 
             CreateMap<Employee, EmployeeDto>();
+
+            CreateMap<CompanyForCreationDto, Company>();
         }
     }
 }
