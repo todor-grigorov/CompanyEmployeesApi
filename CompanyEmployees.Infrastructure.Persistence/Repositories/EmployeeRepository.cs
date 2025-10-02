@@ -25,5 +25,7 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
             employee.CompanyId = companyId;
             Create(employee);
         }
+
+        public void DeleteEmployee(Employee employee) => Delete(employee);
     }
 }
