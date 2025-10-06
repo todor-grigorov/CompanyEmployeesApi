@@ -26,6 +26,22 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
             Create(employee);
         }
 
-        public void DeleteEmployee(Employee employee) => Delete(employee);
+        public void DeleteEmployee(Company company, Employee employee)
+        {
+            using var transaction = RepositoryContext.Database.BeginTransaction();
+
+            Delete(employee);
+
+            RepositoryContext.SaveChanges();
+
+            if (!FindByCondition(e => e.CompanyId == company.Id, false).Any())
+            {
+                RepositoryContext.Companies!.Remove(company);
+
+                RepositoryContext.SaveChanges();
+            }
+
+            transaction.Commit();
+        }
     }
 }
