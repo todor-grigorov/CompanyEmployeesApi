@@ -73,8 +73,7 @@ namespace CompanyEmployees.Core.Services
             if (employeeForCompany is null)
                 throw new EmployeeNotFoundException(id);
 
-            _repository.Employee.DeleteEmployee(employeeForCompany);
-            _repository.Save();
+            _repository.Employee.DeleteEmployee(company, employeeForCompany);
         }
     }
 }
