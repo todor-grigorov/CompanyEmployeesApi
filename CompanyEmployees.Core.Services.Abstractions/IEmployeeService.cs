@@ -15,7 +15,6 @@ namespace CompanyEmployees.Core.Services.Abstractions
 
         void UpdateEmployeeForCompany(Guid companyId, Guid id,
                                         EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
-
-        void UpdateCompany(Guid companyid, CompanyForUpdateDto companyForUpdate, bool trackChanges);
+      
     }
 }
