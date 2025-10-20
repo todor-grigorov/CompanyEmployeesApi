@@ -1,4 +1,5 @@
-﻿using Shared.DataTransferObjects;
+﻿using CompanyEmployees.Core.Domain.Entities;
+using Shared.DataTransferObjects;
 
 namespace CompanyEmployees.Core.Services.Abstractions
 {
@@ -15,6 +16,11 @@ namespace CompanyEmployees.Core.Services.Abstractions
 
         void UpdateEmployeeForCompany(Guid companyId, Guid id,
                                         EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
-      
+
+        (EmployeeForUpdateDto employeeToPatch, Employee employeeEntity) GetEmployeeForPatch(
+                                        Guid companyId, Guid id, bool compTrackChanges, bool empTrackChanges);
+
+        void SaveChangesForPatch(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity);
+
     }
 }
