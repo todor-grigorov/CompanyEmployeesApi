@@ -53,10 +53,6 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         [HttpPost("collection")]
         public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
         {
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             var result = _service.CompanyService.CreateCompanyCollection(companyCollection);
 
             return CreatedAtRoute("CompanyCollection", new { result.ids }, result.companies);
