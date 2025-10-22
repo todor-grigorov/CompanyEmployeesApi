@@ -52,6 +52,9 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         {
             var result = _service.CompanyService.CreateCompanyCollection(companyCollection);
 
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             return CreatedAtRoute("CompanyCollection", new { result.ids }, result.companies);
         }
 
