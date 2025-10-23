@@ -1,4 +1,5 @@
 ﻿using CompanyEmployees.Core.Services.Abstractions;
+using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
@@ -29,13 +30,17 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee)
+        public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee, [FromServices] IValidator<EmployeeForCreationDto> validator)
         {
             if (employee is null)
                 return BadRequest("EmployeeForCreationDto object is null");
 
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
+            var valResult = validator.Validate(employee);
+            if (!valResult.IsValid)
+                return UnprocessableEntity(valResult.ToDictionary());
+
+            //if (!ModelState.IsValid)
+            //    return UnprocessableEntity(ModelState);
 
             var employeeToReturn = _service.EmployeeService.CreateEmployeeForCompany(companyId, employee,
                 trackChanges: false);
