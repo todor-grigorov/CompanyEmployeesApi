@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
+using System.ComponentModel.DataAnnotations;
 
 namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 {
@@ -59,13 +60,18 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 
         [HttpPut("{id:guid}")]
         public IActionResult UpdateEmployeeForCompany(Guid companyId, Guid id,
-                                                        [FromBody] EmployeeForUpdateDto employee)
+                                                        [FromBody] EmployeeForUpdateDto employee,
+                                                        [FromServices] IValidator<EmployeeForUpdateDto> validator)
         {
             if (employee is null)
                 return BadRequest("EmployeeForUpdateDto object is null");
 
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
+            var valResult = validator.Validate(employee);
+            if (!valResult.IsValid)
+                return UnprocessableEntity(valResult.ToDictionary());
+
+            //if (!ModelState.IsValid)
+            //    return UnprocessableEntity(ModelState);
 
             _service.EmployeeService.UpdateEmployeeForCompany(companyId, id, employee,
                 compTrackChanges: false, empTrackChanges: true);
