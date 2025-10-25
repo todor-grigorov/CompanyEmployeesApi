@@ -29,9 +29,9 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}", Name = "CompanyById")]
-        public IActionResult GetCompany(Guid id)
+        public async Task<IActionResult> GetCompany(Guid id)
         {
-            var company = _service.CompanyService.GetCompany(id, trackChanges: false);
+            var company = await _service.CompanyService.GetCompanyAsync(id, trackChanges: false);
 
             return Ok(company);
         }
