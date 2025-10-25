@@ -21,13 +21,13 @@ namespace CompanyEmployees.Core.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges)
+        public async Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges)
         {
-                var companies = _repository.Company.GetAllCompanies(trackChanges);
+            var companies = await _repository.Company.GetAllCompaniesAsync(trackChanges);
 
-                var companyDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
+            var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
-                return companyDto;
+            return companiesDto;
         }
 
         public IEnumerable<CompanyDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
