@@ -13,10 +13,10 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         public CompaniesController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public IActionResult GetCompanies()
+        public async Task<IActionResult> GetCompanies()
         {
-            var companies = _service.CompanyService.GetAllCompanies(trackChanges: false);
-            
+            var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
+
             return Ok(companies);
         }
 
