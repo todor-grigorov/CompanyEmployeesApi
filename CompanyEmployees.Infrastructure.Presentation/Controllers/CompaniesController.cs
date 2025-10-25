@@ -60,9 +60,10 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public IActionResult DeleteCompany(Guid id)
+        public async Task<IActionResult> DeleteCompany(Guid id)
         {
-            _service.CompanyService.DeleteCompany(id, trackChanges: false);
+            await _service.CompanyService.DeleteCompanyAsync(id, trackChanges: false);
+
             return NoContent();
         }
 
