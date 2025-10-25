@@ -52,9 +52,9 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPost("collection")]
-        public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
+        public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
         {
-            var result = _service.CompanyService.CreateCompanyCollection(companyCollection);
+            var result = await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection);
 
             return CreatedAtRoute("CompanyCollection", new { result.ids }, result.companies);
         }
