@@ -21,9 +21,10 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-        public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+        public async Task<IActionResult> GetCompanyCollection
+            ([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
-            var companies = _service.CompanyService.GetByIds(ids, trackChanges: false);
+            var companies = await _service.CompanyService.GetByIdsAsync(ids, trackChanges: false);
 
             return Ok(companies);
         }
