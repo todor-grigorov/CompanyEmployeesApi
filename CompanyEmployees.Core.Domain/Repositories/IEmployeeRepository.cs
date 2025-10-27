@@ -6,7 +6,7 @@ namespace CompanyEmployees.Core.Domain.Repositories
     {
         Task<IEnumerable<Employee>> GetEmployeesAsync(Guid companyId, bool trackChanges);
 
-        Task<Employee> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges);
+        Task<Employee?> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges);
 
         void CreateEmployeeForCompany(Guid companyId, Employee employee);
 
