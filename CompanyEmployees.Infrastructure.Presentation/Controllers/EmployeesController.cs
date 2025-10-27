@@ -59,7 +59,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult UpdateEmployeeForCompany(Guid companyId, Guid id,
+        public async Task<IActionResult> UpdateEmployeeForCompany(Guid companyId, Guid id,
                                                         [FromBody] EmployeeForUpdateDto employee,
                                                         [FromServices] IValidator<EmployeeForUpdateDto> validator)
         {
@@ -73,7 +73,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             //if (!ModelState.IsValid)
             //    return UnprocessableEntity(ModelState);
 
-            _service.EmployeeService.UpdateEmployeeForCompany(companyId, id, employee,
+            await _service.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employee,
                 compTrackChanges: false, empTrackChanges: true);
 
             return NoContent();
