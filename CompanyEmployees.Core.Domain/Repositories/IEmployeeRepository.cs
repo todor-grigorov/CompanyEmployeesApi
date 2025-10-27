@@ -2,7 +2,7 @@
 
 namespace CompanyEmployees.Core.Domain.Repositories
 {
-    public interface 
+    public interface IEmployeeRepository
     {
         Task<IEnumerable<Employee>> GetEmployeesAsync(Guid companyId, bool trackChanges);
 
