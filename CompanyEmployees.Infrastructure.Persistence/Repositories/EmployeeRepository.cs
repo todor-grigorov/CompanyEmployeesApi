@@ -27,22 +27,22 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
             Create(employee);
         }
 
-        public void DeleteEmployee(Company company, Employee employee)
+        public async Task DeleteEmployeeAsync(Company company, Employee employee)
         {
-            using var transaction = RepositoryContext.Database.BeginTransaction();
+            using var transaction = await RepositoryContext.Database.BeginTransactionAsync();
 
             Delete(employee);
 
-            RepositoryContext.SaveChanges();
+            await RepositoryContext.SaveChangesAsync();
 
             if (!FindByCondition(e => e.CompanyId == company.Id, false).Any())
             {
                 RepositoryContext.Companies!.Remove(company);
 
-                RepositoryContext.SaveChanges();
+                await RepositoryContext.SaveChangesAsync();
             }
 
-            transaction.Commit();
+            await transaction.CommitAsync();
         }
     }
 }
