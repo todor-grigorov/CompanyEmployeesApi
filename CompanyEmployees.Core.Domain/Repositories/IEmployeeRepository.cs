@@ -10,6 +10,6 @@ namespace CompanyEmployees.Core.Domain.Repositories
 
         void CreateEmployeeForCompany(Guid companyId, Employee employee);
 
-        void DeleteEmployee(Company company, Employee employee);
+        Task DeleteEmployeeAsync(Company company, Employee employee);
     }
 }
