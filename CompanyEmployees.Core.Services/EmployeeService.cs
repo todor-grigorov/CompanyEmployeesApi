@@ -21,13 +21,15 @@ namespace CompanyEmployees.Core.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges)
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(Guid companyId, bool trackChanges)
         {
-            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges);
             if (company is null)
                     throw new CompanyNotFoundException(companyId);
-            var employeesFromDb = _repository.Employee.GetEmployees(companyId, trackChanges);
+
+            var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, trackChanges);
             var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
+
             return employeesDto;
         }
 
