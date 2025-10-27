@@ -31,7 +31,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee, [FromServices] IValidator<EmployeeForCreationDto> validator)
+        public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee, [FromServices] IValidator<EmployeeForCreationDto> validator)
         {
             if (employee is null)
                 return BadRequest("EmployeeForCreationDto object is null");
@@ -43,7 +43,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             //if (!ModelState.IsValid)
             //    return UnprocessableEntity(ModelState);
 
-            var employeeToReturn = _service.EmployeeService.CreateEmployeeForCompany(companyId, employee,
+            var employeeToReturn = await _service.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee,
                 trackChanges: false);
 
             return CreatedAtRoute("GetEmployeeForCompany", new { companyId, id = employeeToReturn.Id },
