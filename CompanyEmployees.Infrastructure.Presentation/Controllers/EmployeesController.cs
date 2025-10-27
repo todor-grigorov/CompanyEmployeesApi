@@ -51,9 +51,9 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public IActionResult DeleteEmployeeForCompany(Guid companyId, Guid id)
+        public async Task<IActionResult> DeleteEmployeeForCompany(Guid companyId, Guid id)
         {
-            _service.EmployeeService.DeleteEmployeeForCompany(companyId, id, trackChanges: false);
+            await _service.EmployeeService.DeleteEmployeeForCompanyAsync(companyId, id, trackChanges: false);
 
             return NoContent();
         }
