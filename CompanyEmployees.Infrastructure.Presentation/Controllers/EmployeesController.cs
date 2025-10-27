@@ -80,13 +80,13 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPatch("{id:guid}")]
-        public IActionResult PartiallyUpdateEmployeeForCompany(Guid companyId, Guid id,
+        public async Task<IActionResult> PartiallyUpdateEmployeeForCompany(Guid companyId, Guid id,
                                                                 [FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc)
         {
             if (patchDoc is null)
                 return BadRequest("patchDoc object sent from client is null.");
 
-            var result = _service.EmployeeService.GetEmployeeForPatch(companyId, id, compTrackChanges: false,
+            var result = await _service.EmployeeService.GetEmployeeForPatchAsync(companyId, id, compTrackChanges: false,
                 empTrackChanges: true);
 
             patchDoc.ApplyTo(result.employeeToPatch, ModelState);
@@ -96,7 +96,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.EmployeeService.SaveChangesForPatch(result.employeeToPatch, result.employeeEntity);
+            await _service.EmployeeService.SaveChangesForPatchAsync(result.employeeToPatch, result.employeeEntity);
 
             return NoContent();
         }
