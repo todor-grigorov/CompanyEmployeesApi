@@ -33,13 +33,13 @@ namespace CompanyEmployees.Core.Services
             return employeesDto;
         }
 
-        public EmployeeDto GetEmployee(Guid companyId, Guid id, bool trackChanges)
+        public async Task<EmployeeDto> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges)
         {
-            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges);
             if (company is null)
                 throw new CompanyNotFoundException(companyId);
 
-            var employeeDb = _repository.Employee.GetEmployee(companyId, id, trackChanges);
+            var employeeDb = await _repository.Employee.GetEmployeeAsync(companyId, id, trackChanges);
             if (employeeDb is null)
                 throw new EmployeeNotFoundException(id);
 
