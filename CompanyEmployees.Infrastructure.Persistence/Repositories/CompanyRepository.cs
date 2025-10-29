@@ -11,10 +11,10 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
         {
         }
 
-        public async Task<IEnumerable<Company>> GetAllCompaniesAsync(bool trackChanges) =>
+        public async Task<IEnumerable<Company>> GetAllCompaniesAsync(bool trackChanges, CancellationToken ct = default) =>
             await FindAll(trackChanges)
                 .OrderBy(c => c.Name)
-                .ToListAsync();
+                .ToListAsync(ct);
 
         public async Task<Company?> GetCompanyAsync(Guid companyId, bool trackChanges) => 
             await FindByCondition(c => c.Id.Equals(companyId), trackChanges)
