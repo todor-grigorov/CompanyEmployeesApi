@@ -22,9 +22,9 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
 
         public void CreateCompany(Company company) => Create(company);
 
-        public async Task<IEnumerable<Company>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges) =>
+        public async Task<IEnumerable<Company>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges, CancellationToken ct = default) =>
             await FindByCondition(x => ids.Contains(x.Id), trackChanges)
-                .ToListAsync();
+                .ToListAsync(ct);
 
         public void DeleteCompany(Company company) => Delete(company);
     }
