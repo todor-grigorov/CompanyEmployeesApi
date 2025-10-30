@@ -13,9 +13,9 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         public CompaniesController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetCompanies()
+        public async Task<IActionResult> GetCompanies(CancellationToken ct)
         {
-            var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
+            var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false, ct);
 
             return Ok(companies);
         }
