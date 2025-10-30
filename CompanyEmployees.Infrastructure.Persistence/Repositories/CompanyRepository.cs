@@ -16,9 +16,9 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
                 .OrderBy(c => c.Name)
                 .ToListAsync(ct);
 
-        public async Task<Company?> GetCompanyAsync(Guid companyId, bool trackChanges) => 
+        public async Task<Company?> GetCompanyAsync(Guid companyId, bool trackChanges, CancellationToken ct = default) => 
             await FindByCondition(c => c.Id.Equals(companyId), trackChanges)
-                .SingleOrDefaultAsync()!;
+                .SingleOrDefaultAsync(ct)!;
 
         public void CreateCompany(Company company) => Create(company);
 
