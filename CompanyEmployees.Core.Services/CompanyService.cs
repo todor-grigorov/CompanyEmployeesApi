@@ -56,12 +56,12 @@ namespace CompanyEmployees.Core.Services
             return companyDto;
         }
 
-        public async Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company)
+        public async Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company, CancellationToken ct = default)
         {
             var companyEntity = _mapper.Map<Company>(company);
 
             _repository.Company.CreateCompany(companyEntity);
-            await _repository.SaveAsync();
+            await _repository.SaveAsync(ct);
 
             var companyToReturn = _mapper.Map<CompanyDto>(companyEntity);
 
