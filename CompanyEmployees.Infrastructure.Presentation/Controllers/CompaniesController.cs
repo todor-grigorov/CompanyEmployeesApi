@@ -22,17 +22,17 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 
         [HttpGet("collection/({ids})", Name = "CompanyCollection")]
         public async Task<IActionResult> GetCompanyCollection
-            ([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+            ([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids, CancellationToken ct)
         {
-            var companies = await _service.CompanyService.GetByIdsAsync(ids, trackChanges: false);
+            var companies = await _service.CompanyService.GetByIdsAsync(ids, trackChanges: false, ct);
 
             return Ok(companies);
         }
 
         [HttpGet("{id:guid}", Name = "CompanyById")]
-        public async Task<IActionResult> GetCompany(Guid id)
+        public async Task<IActionResult> GetCompany(Guid id, CancellationToken ct)
         {
-            var company = await _service.CompanyService.GetCompanyAsync(id, trackChanges: false);
+            var company = await _service.CompanyService.GetCompanyAsync(id, trackChanges: false, ct);
 
             return Ok(company);
         }
@@ -52,23 +52,23 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPost("collection")]
-        public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
+        public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection, CancellationToken ct)
         {
-            var result = await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection);
+            var result = await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection, ct);
 
             return CreatedAtRoute("CompanyCollection", new { result.ids }, result.companies);
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteCompany(Guid id)
+        public async Task<IActionResult> DeleteCompany(Guid id, CancellationToken ct)
         {
-            await _service.CompanyService.DeleteCompanyAsync(id, trackChanges: false);
+            await _service.CompanyService.DeleteCompanyAsync(id, trackChanges: false, ct);
 
             return NoContent();
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company)
+        public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company, CancellationToken ct)
         {
             if (company is null)
                 return BadRequest("CompanyForUpdateDto object is null");
@@ -76,7 +76,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            await _service.CompanyService.UpdateCompanyAsync(id, company, trackChanges: true);
+            await _service.CompanyService.UpdateCompanyAsync(id, company, trackChanges: true, ct);
 
             return NoContent();
         }

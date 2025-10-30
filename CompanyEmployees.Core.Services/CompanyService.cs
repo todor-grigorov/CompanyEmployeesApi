@@ -45,9 +45,9 @@ namespace CompanyEmployees.Core.Services
             return companiesToReturn;
         }
 
-        public async Task<CompanyDto> GetCompanyAsync(Guid id, bool trackChanges)
+        public async Task<CompanyDto> GetCompanyAsync(Guid id, bool trackChanges, CancellationToken ct = default)
         {
-            var company = await _repository.Company.GetCompanyAsync(id, trackChanges);
+            var company = await _repository.Company.GetCompanyAsync(id, trackChanges, ct);
             if (company is null)
                 throw new CompanyNotFoundException(id);
 
