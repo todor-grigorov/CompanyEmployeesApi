@@ -11,7 +11,7 @@ namespace CompanyEmployees.Core.Services.Abstractions
 
         Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company, CancellationToken ct = default);
 
-        Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+        Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges, CancellationToken ct = default);
 
         Task<(IEnumerable<CompanyDto> companies, string ids)> CreateCompanyCollectionAsync
             (IEnumerable<CompanyForCreationDto> companyCollection);
