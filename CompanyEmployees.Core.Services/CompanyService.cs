@@ -21,9 +21,9 @@ namespace CompanyEmployees.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges)
+        public async Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges, CancellationToken ct = default)
         {
-            var companies = await _repository.Company.GetAllCompaniesAsync(trackChanges);
+            var companies = await _repository.Company.GetAllCompaniesAsync(trackChanges, ct);
 
             var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
