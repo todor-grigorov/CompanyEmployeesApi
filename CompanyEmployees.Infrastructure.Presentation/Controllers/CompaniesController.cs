@@ -38,7 +38,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company)
+        public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company, CancellationToken ct)
         {
             if (company is null)
                 return BadRequest("CompanyForCreationDto object is null");
@@ -46,7 +46,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            var createdCompany = await _service.CompanyService.CreateCompanyAsync(company);
+            var createdCompany = await _service.CompanyService.CreateCompanyAsync(company, ct);
 
             return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
         }
