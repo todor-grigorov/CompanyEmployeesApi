@@ -1,4 +1,5 @@
 ﻿using CompanyEmployees.Core.Services.Abstractions;
+using CompanyEmployees.Infrastructure.Presentation.ActionFilters;
 using CompanyEmployees.Infrastructure.Presentation.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
@@ -38,14 +39,9 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company, CancellationToken ct)
         {
-            if (company is null)
-                return BadRequest("CompanyForCreationDto object is null");
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             var createdCompany = await _service.CompanyService.CreateCompanyAsync(company, ct);
 
             return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
