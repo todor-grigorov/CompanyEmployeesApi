@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 //using System.ComponentModel.DataAnnotations;
 
 namespace CompanyEmployees.Infrastructure.Presentation.Controllers
@@ -15,9 +16,9 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         public EmployeesController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, CancellationToken ct)
+        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters, CancellationToken ct)
         {
-            var employees = await _service.EmployeeService.GetEmployeesAsync(companyId, trackChanges: false, ct);
+            var employees = await _service.EmployeeService.GetEmployeesAsync(companyId, trackChanges: false, employeeParameters, ct);
 
             return Ok(employees);
         }
@@ -31,7 +32,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee, 
+        public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee,
             [FromServices] IValidator<EmployeeForCreationDto> validator, CancellationToken ct)
         {
             if (employee is null)
@@ -62,7 +63,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateEmployeeForCompany(Guid companyId, Guid id,
                                                         [FromBody] EmployeeForUpdateDto employee,
-                                                        [FromServices] IValidator<EmployeeForUpdateDto> validator, 
+                                                        [FromServices] IValidator<EmployeeForUpdateDto> validator,
                                                         CancellationToken ct)
         {
             if (employee is null)
@@ -83,7 +84,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 
         [HttpPatch("{id:guid}")]
         public async Task<IActionResult> PartiallyUpdateEmployeeForCompany(Guid companyId, Guid id,
-                                                                [FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc, 
+                                                                [FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc,
                                                                 CancellationToken ct)
         {
             if (patchDoc is null)
