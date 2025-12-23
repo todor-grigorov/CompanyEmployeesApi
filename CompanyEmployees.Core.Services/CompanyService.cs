@@ -47,9 +47,7 @@ namespace CompanyEmployees.Core.Services
 
         public async Task<CompanyDto> GetCompanyAsync(Guid id, bool trackChanges, CancellationToken ct = default)
         {
-            var company = await _repository.Company.GetCompanyAsync(id, trackChanges, ct);
-            if (company is null)
-                throw new CompanyNotFoundException(id);
+            var company = await GetCompanyAndCheckIfItExists(id, trackChanges, ct);
 
             var companyDto = _mapper.Map<CompanyDto>(company);
 
@@ -90,9 +88,7 @@ namespace CompanyEmployees.Core.Services
 
         public async Task DeleteCompanyAsync(Guid companyId, bool trackChanges, CancellationToken ct = default)
         {
-            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges);
-            if (company is null)
-                throw new CompanyNotFoundException(companyId);
+            var company = await GetCompanyAndCheckIfItExists(companyId, trackChanges, ct);
 
             _repository.Company.DeleteCompany(company);
             await _repository.SaveAsync(ct);
@@ -101,12 +97,19 @@ namespace CompanyEmployees.Core.Services
         public async Task UpdateCompanyAsync(Guid companyId, CompanyForUpdateDto companyForUpdate,
             bool trackChanges, CancellationToken ct = default)
         {
-            var companyEntity = await _repository.Company.GetCompanyAsync(companyId, trackChanges);
-            if (companyEntity is null)
-                throw new CompanyNotFoundException(companyId);
+            var companyEntity = await GetCompanyAndCheckIfItExists(companyId, trackChanges, ct);
 
             _mapper.Map(companyForUpdate, companyEntity);
             await _repository.SaveAsync(ct);
+        }
+
+        private async Task<Company> GetCompanyAndCheckIfItExists(Guid companyId, bool trackChanges, CancellationToken ct)
+        {
+            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges, ct);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+
+            return company;
         }
     }
 }
