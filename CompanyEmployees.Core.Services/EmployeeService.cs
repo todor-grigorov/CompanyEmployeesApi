@@ -22,14 +22,14 @@ namespace CompanyEmployees.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(Guid companyId, bool trackChanges, EmployeeParameters employeeParameters, CancellationToken ct = default)
+        public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges, CancellationToken ct = default)
         {
             await CheckIfCompanyExists(companyId, trackChanges, ct);
 
-            var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges);
-            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
+            var employeesWitMetaData = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges, ct);
+            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesWitMetaData);
 
-            return employeesDto;
+            return (employees: employeesDto, metaData: employeesWitMetaData.MetaData);
         }
 
         public async Task<EmployeeDto> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges, CancellationToken ct = default)
