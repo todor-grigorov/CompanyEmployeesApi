@@ -1,6 +1,7 @@
 ﻿
 using CompanyEmployees.Core.Domain.Entities;
 using CompanyEmployees.Core.Domain.Repositories;
+using CompanyEmployees.Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Shared.RequestFeatures;
 
@@ -15,9 +16,9 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
 
         public async Task<PagedList<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges, CancellationToken ct = default)
         {
-            var employeesQuery = FindByCondition(e => e.CompanyId.Equals(companyId) &&
-                (e.Age >= employeeParameters.MinAge && e.Age <= employeeParameters.MaxAge),
-                trackChanges)
+            var employeesQuery = FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+                .FilterEmployees(employeeParameters.MinAge, employeeParameters.MaxAge)
+                .Search(employeeParameters.SearchTerm)
                 .OrderBy(e => e.Name);
 
             var count = await employeesQuery.CountAsync(ct);
