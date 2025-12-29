@@ -1,4 +1,6 @@
 using CompanyEmployees;
+using CompanyEmployees.Core.Services.Abstractions;
+using CompanyEmployees.Core.Services.DataShaping;
 using CompanyEmployees.Extensions;
 using CompanyEmployees.Infrastructure.Presentation.ActionFilters;
 using FluentValidation;
@@ -22,6 +24,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services
     .AddValidatorsFromAssemblyContaining(typeof(EmployeeForManipulationDtoValidator<EmployeeForManipulationDto>));
+builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 
 NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
     new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
