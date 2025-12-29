@@ -18,8 +18,8 @@ namespace CompanyEmployees.Infrastructure.Persistence.Repositories
         {
             var employeesQuery = FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
                 .FilterEmployees(employeeParameters.MinAge, employeeParameters.MaxAge)
-                .Search(employeeParameters.SearchTerm)
-                .OrderBy(e => e.Name);
+                .Search(employeeParameters.SearchTerm!)
+                .Sort(employeeParameters.OrderBy!);
 
             var count = await employeesQuery.CountAsync(ct);
             var employees = await employeesQuery
