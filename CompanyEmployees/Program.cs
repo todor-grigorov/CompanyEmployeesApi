@@ -48,6 +48,8 @@ builder.Services.AddControllers(config =>
   .AddCustomCSVFormatter()
   .AddApplicationPart(typeof(CompanyEmployees.Infrastructure.Presentation.AssemblyReference).Assembly);
 
+builder.Services.AddCustomMediaTypes();
+
 builder.Host.UseSerilog((hostContext, configuration) =>
 {
     configuration.ReadFrom.Configuration(hostContext.Configuration);
