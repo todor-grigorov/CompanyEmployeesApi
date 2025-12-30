@@ -6,6 +6,7 @@ using CompanyEmployees.Infrastructure.Persistence.Repositories;
 using LoggingService;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
+using System.Dynamic;
 
 namespace CompanyEmployees.Core.Services
 {
@@ -14,15 +15,17 @@ namespace CompanyEmployees.Core.Services
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
+        private readonly IDataShaper<EmployeeDto> _dataShaper;
 
-        public EmployeeService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        public EmployeeService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper, IDataShaper<EmployeeDto> dataShaper)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+            _dataShaper = dataShaper;
         }
 
-        public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges, CancellationToken ct = default)
+        public async Task<(IEnumerable<ExpandoObject> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges, CancellationToken ct = default)
         {
             if (!employeeParameters.ValidAgeRange)
                 throw new MaxAgeRangeBadRequestException();
@@ -31,8 +34,9 @@ namespace CompanyEmployees.Core.Services
 
             var employeesWitMetaData = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges, ct);
             var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesWitMetaData);
+            var shapedData = _dataShaper.ShapeData(employeesDto, employeeParameters.Fields!);
 
-            return (employees: employeesDto, metaData: employeesWitMetaData.MetaData);
+            return (employees: shapedData, metaData: employeesWitMetaData.MetaData);
         }
 
         public async Task<EmployeeDto> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges, CancellationToken ct = default)
