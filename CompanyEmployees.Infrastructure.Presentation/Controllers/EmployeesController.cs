@@ -1,4 +1,5 @@
 ﻿using CompanyEmployees.Core.Services.Abstractions;
+using CompanyEmployees.Infrastructure.Presentation.ActionFilters;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,8 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         public EmployeesController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+
         public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters, CancellationToken ct)
         {
             var pagedResult = await _service.EmployeeService.GetEmployeesAsync(companyId, employeeParameters, trackChanges: false, ct);
