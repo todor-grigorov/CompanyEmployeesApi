@@ -1,4 +1,5 @@
-﻿using CompanyEmployees.Core.Services.Abstractions;
+﻿using CompanyEmployees.Core.Domain.LinkModels;
+using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Infrastructure.Presentation.ActionFilters;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
@@ -21,11 +22,14 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 
         public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters, CancellationToken ct)
         {
-            var pagedResult = await _service.EmployeeService.GetEmployeesAsync(companyId, employeeParameters, trackChanges: false, ct);
+            var linkParams = new LinkParameters(employeeParameters, HttpContext);
 
-            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
+            var result = await _service.EmployeeService.GetEmployeesAsync(companyId, linkParams, trackChanges: false, ct);
 
-            return Ok(pagedResult.employees);
+            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(result.metaData);
+
+            return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) :
+                    Ok(result.linkResponse.ShapedEntities);
         }
 
         [HttpGet("{id:guid}", Name = "GetEmployeeForCompany")]
