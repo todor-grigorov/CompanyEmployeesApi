@@ -7,7 +7,7 @@ namespace CompanyEmployees.Core.Services.Abstractions
 {
     public interface IEmployeeService
     {
-        Task<(LinkParameters linkParameters, MetaData metaData)> GetEmployeesAsync(Guid companyId, LinkParameters linkParameters, bool trackChanges, CancellationToken ct = default);
+        Task<(LinkResponse linkResponse, MetaData metaData)> GetEmployeesAsync(Guid companyId, LinkParameters linkParameters, bool trackChanges, CancellationToken ct = default);
 
         Task<EmployeeDto> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges, CancellationToken ct = default);
 
