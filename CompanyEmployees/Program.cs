@@ -1,6 +1,7 @@
 using CompanyEmployees;
 using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Core.Services.DataShaping;
+using CompanyEmployees.Core.Services.Hateoas;
 using CompanyEmployees.Extensions;
 using CompanyEmployees.Infrastructure.Presentation.ActionFilters;
 using FluentValidation;
@@ -27,6 +28,7 @@ builder.Services
 
 builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
+builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 
 NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
     new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
