@@ -57,7 +57,9 @@ namespace CompanyEmployees.Extensions
                 if (systemTextJsonOutputFormatter != null)
                 {
                     systemTextJsonOutputFormatter.SupportedMediaTypes
-                    .Add("application/tg.code.hateoas+json");
+                        .Add("application/tg.code.hateoas+json");
+                    systemTextJsonOutputFormatter.SupportedMediaTypes
+                        .Add("application/tg.code.apiroot+json");
                 }
                 var xmlOutputFormatter = config.OutputFormatters
                         .OfType<XmlDataContractSerializerOutputFormatter>()?
@@ -65,7 +67,9 @@ namespace CompanyEmployees.Extensions
                 if (xmlOutputFormatter != null)
                 {
                     xmlOutputFormatter.SupportedMediaTypes
-                    .Add("application/tg.code.hateoas+xml");
+                        .Add("application/tg.code.hateoas+xml");
+                    xmlOutputFormatter.SupportedMediaTypes
+                        .Add("application/tg.code.apiroot+xml");
                 }
             });
         }
