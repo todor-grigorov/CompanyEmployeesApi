@@ -1,4 +1,5 @@
-﻿using CompanyEmployees.Core.Domain.LinkModels;
+﻿using CompanyEmployees.Core.Domain.Entities;
+using CompanyEmployees.Core.Domain.LinkModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -26,13 +27,13 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             },
             new Link
             {
-                Href = _linkGenerator.GetUriByName(HttpContext, "GetCompanies", new {}),
+                Href = _linkGenerator.GetUriByAction(HttpContext, "GetCompanies", "companies"),
                 Rel = "companies",
                 Method = "GET"
             },
             new Link
             {
-                Href = _linkGenerator.GetUriByName(HttpContext, "CreateCompany", new {}),
+                Href = _linkGenerator.GetUriByAction(HttpContext, "CreateCompany", "companies", new Company()),
                 Rel = "create_company",
                 Method = "POST"
             }
