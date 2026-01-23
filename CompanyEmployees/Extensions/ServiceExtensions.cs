@@ -57,7 +57,7 @@ namespace CompanyEmployees.Extensions
                 if (systemTextJsonOutputFormatter != null)
                 {
                     systemTextJsonOutputFormatter.SupportedMediaTypes
-                    .Add("application/vnd.codemaze.hateoas+json");
+                    .Add("application/tg.code.hateoas+json");
                 }
                 var xmlOutputFormatter = config.OutputFormatters
                         .OfType<XmlDataContractSerializerOutputFormatter>()?
@@ -65,7 +65,7 @@ namespace CompanyEmployees.Extensions
                 if (xmlOutputFormatter != null)
                 {
                     xmlOutputFormatter.SupportedMediaTypes
-                    .Add("application/vnd.codemaze.hateoas+xml");
+                    .Add("application/tg.code.hateoas+xml");
                 }
             });
         }
