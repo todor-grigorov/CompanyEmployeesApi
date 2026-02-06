@@ -3,6 +3,7 @@ using CompanyEmployees.Core.Services;
 using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Infrastructure.Persistence;
 using CompanyEmployees.Infrastructure.Persistence.Repositories;
+using CompanyEmployees.Infrastructure.Presentation.Controllers;
 using LoggingService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -82,7 +83,14 @@ namespace CompanyEmployees.Extensions
                 opt.ReportApiVersions = true;
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
-            }).AddMvc();
+            })
+            .AddMvc(opt =>
+            {
+                opt.Conventions.Controller<CompaniesController>()
+                    .HasApiVersion(new ApiVersion(1, 0));
+                opt.Conventions.Controller<CompaniesV2Controller>()
+                    .HasDeprecatedApiVersion(new ApiVersion(2, 0));
+            });
         }
     }
 }
