@@ -23,7 +23,8 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureVersioning();
 builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-builder.Services.ConfigureResponseCaching();
+//builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureOutputCaching();
 builder.Services.AddProblemDetails();
 builder.Services
     .AddValidatorsFromAssemblyContaining(typeof(EmployeeForManipulationDtoValidator<EmployeeForManipulationDto>));
@@ -83,7 +84,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseCors("CorsPolicy");
-app.UseResponseCaching();
+//app.UseResponseCaching();
+app.UseOutputCache();
 
 app.UseAuthorization();
 
