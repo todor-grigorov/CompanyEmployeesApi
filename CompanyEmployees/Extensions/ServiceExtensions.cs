@@ -93,7 +93,9 @@ namespace CompanyEmployees.Extensions
             });
         }
 
-        public static void ConfigureResponseCaching(this IServiceCollection services) =>
-              services.AddResponseCaching();
+        //public static void ConfigureResponseCaching(this IServiceCollection services) =>
+        //      services.AddResponseCaching();
+        public static void ConfigureOutputCaching(this IServiceCollection services) =>
+              services.AddOutputCache();
     }
 }
