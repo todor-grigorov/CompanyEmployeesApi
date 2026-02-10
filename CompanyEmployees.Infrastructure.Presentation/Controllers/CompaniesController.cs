@@ -2,12 +2,14 @@
 using CompanyEmployees.Infrastructure.Presentation.ActionFilters;
 using CompanyEmployees.Infrastructure.Presentation.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Shared.DataTransferObjects;
 
 namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 {
     [Route("api/companies")]
-    [ResponseCache(CacheProfileName = "120SecondsDuration")]
+    //[ResponseCache(CacheProfileName = "120SecondsDuration")]
+    [OutputCache(PolicyName = "120SecondsDuration")]
     [ApiController]
     public class CompaniesController : ControllerBase
     {
@@ -39,7 +41,8 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}", Name = "CompanyById")]
-        [ResponseCache(Duration = 60)]
+        //[ResponseCache(Duration = 60)]
+        [OutputCache(Duration = 60)]
         public async Task<IActionResult> GetCompany(Guid id, CancellationToken ct)
         {
             var company = await _service.CompanyService.GetCompanyAsync(id, trackChanges: false, ct);
