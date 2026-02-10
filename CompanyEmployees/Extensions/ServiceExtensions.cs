@@ -8,6 +8,7 @@ using LoggingService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.RateLimiting;
 
 namespace CompanyEmployees.Extensions
 {
@@ -101,5 +102,21 @@ namespace CompanyEmployees.Extensions
                   //opt.AddBasePolicy(bp => bp.Expire(TimeSpan.FromSeconds(10)));
                   opt.AddPolicy("120SecondsDuration", p => p.Expire(TimeSpan.FromSeconds(120)));
               });
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+        {
+            services.AddRateLimiter(opt =>
+            {
+                opt.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                    RateLimitPartition.GetFixedWindowLimiter("GlobalLimiter",
+                    partition => new FixedWindowRateLimiterOptions
+                    {
+                        AutoReplenishment = true,
+                        PermitLimit = 5,
+                        QueueLimit = 0,
+                        Window = TimeSpan.FromMinutes(1)
+                    }));
+            });
+        }
     }
 }
