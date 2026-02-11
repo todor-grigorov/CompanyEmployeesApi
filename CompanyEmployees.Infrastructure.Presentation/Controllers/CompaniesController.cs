@@ -44,6 +44,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}", Name = "CompanyById")]
+        [DisableRateLimiting]
         //[ResponseCache(Duration = 60)]
         [OutputCache(Duration = 60)]
         public async Task<IActionResult> GetCompany(Guid id, CancellationToken ct)
