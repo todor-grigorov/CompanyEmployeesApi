@@ -117,6 +117,16 @@ namespace CompanyEmployees.Extensions
                         QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                         Window = TimeSpan.FromMinutes(1)
                     }));
+
+                opt.AddPolicy("SpecificPolicy", context =>
+                    RateLimitPartition.GetFixedWindowLimiter("SpecificLimiter",
+                    partition => new FixedWindowRateLimiterOptions
+                    {
+                        AutoReplenishment = true,
+                        PermitLimit = 3,
+                        Window = TimeSpan.FromSeconds(10)
+                    }));
+
                 opt.OnRejected = async (context, token) =>
                 {
                     context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
