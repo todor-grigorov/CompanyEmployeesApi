@@ -116,7 +116,17 @@ namespace CompanyEmployees.Extensions
                         QueueLimit = 0,
                         Window = TimeSpan.FromMinutes(1)
                     }));
-                opt.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                opt.OnRejected = async (context, token) =>
+                {
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                    if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+                        await context.HttpContext.Response
+                            .WriteAsync($"Too many requests. " +
+                            $"Please try again after {retryAfter.TotalSeconds} second(s).", token);
+                    else
+                        await context.HttpContext.Response
+                            .WriteAsync("Too many requests. Please try again later.", token);
+                };
             });
         }
     }
