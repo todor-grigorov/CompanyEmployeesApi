@@ -3,6 +3,7 @@ using CompanyEmployees.Infrastructure.Presentation.ActionFilters;
 using CompanyEmployees.Infrastructure.Presentation.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.AspNetCore.RateLimiting;
 using Shared.DataTransferObjects;
 
 namespace CompanyEmployees.Infrastructure.Presentation.Controllers
@@ -24,6 +25,8 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
         }
 
         [HttpGet]
+        [HttpGet(Name = "GetCompanies")]
+        [EnableRateLimiting("SpecificPolicy")]
         public async Task<IActionResult> GetCompanies(CancellationToken ct)
         {
             var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false, ct);
