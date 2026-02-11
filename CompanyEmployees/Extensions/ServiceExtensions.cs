@@ -116,6 +116,7 @@ namespace CompanyEmployees.Extensions
                         QueueLimit = 0,
                         Window = TimeSpan.FromMinutes(1)
                     }));
+                opt.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             });
         }
     }
