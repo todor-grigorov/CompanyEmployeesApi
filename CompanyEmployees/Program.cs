@@ -34,6 +34,9 @@ builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
 
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+
 NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
     new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
     .Services.BuildServiceProvider()
@@ -89,6 +92,7 @@ app.UseCors("CorsPolicy");
 //app.UseResponseCaching();
 app.UseOutputCache();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
