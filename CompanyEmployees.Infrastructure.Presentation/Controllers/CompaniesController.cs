@@ -27,7 +27,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 
         [HttpGet(Name = "GetCompanies")]
         [EnableRateLimiting("SpecificPolicy")]
-        [Authorize]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetCompanies(CancellationToken ct)
         {
             var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false, ct);
