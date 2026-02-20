@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CompanyEmployees.Core.Domain.Entities;
+using CompanyEmployees.Core.Domain.Exceptions;
 using CompanyEmployees.Core.Services.Abstractions;
 using LoggingService;
 using Microsoft.AspNetCore.Identity;
@@ -99,6 +100,20 @@ namespace CompanyEmployees.Core.Services
             return new TokenDto(accessToken, refreshToken);
         }
 
+        public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
+        {
+            var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+
+            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+            if (user == null || user.RefreshToken != tokenDto.RefreshToken ||
+                user.RefreshTokenExpiryTime <= DateTime.Now)
+                throw new RefreshTokenBadRequest();
+
+            _user = user;
+
+            return await CreateToken(populateExp: false);
+        }
+
         private SigningCredentials GetSigningCredentials()
         {
             var key = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSettings:secret")!);
@@ -160,7 +175,7 @@ namespace CompanyEmployees.Core.Services
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET")!)),
+                    Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSettings:secret")!)),
                 ValidateLifetime = true,
                 ValidIssuer = jwtSettings["validIssuer"],
                 ValidAudience = jwtSettings["validAudience"]
