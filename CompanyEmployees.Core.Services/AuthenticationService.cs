@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CompanyEmployees.Core.Domain.ConfigurationModels;
 using CompanyEmployees.Core.Domain.Entities;
 using CompanyEmployees.Core.Domain.Exceptions;
 using CompanyEmployees.Core.Services.Abstractions;
@@ -21,6 +22,7 @@ namespace CompanyEmployees.Core.Services
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly JwtConfiguration _jwtConfiguration;
         private User? _user;
 
         public AuthenticationService(ILoggerManager logger, IMapper mapper,
@@ -31,6 +33,8 @@ namespace CompanyEmployees.Core.Services
             _userManager = userManager;
             _configuration = configuration;
             _roleManager = roleManager;
+            _jwtConfiguration = new JwtConfiguration();
+            _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
