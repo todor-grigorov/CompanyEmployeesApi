@@ -120,7 +120,7 @@ namespace CompanyEmployees.Core.Services
 
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSettings:secret")!);
+            var key = Encoding.UTF8.GetBytes(_jwtConfiguration.Secret!);
             var secret = new SymmetricSecurityKey(key);
 
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
