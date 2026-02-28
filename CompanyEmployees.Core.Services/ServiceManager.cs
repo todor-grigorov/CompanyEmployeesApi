@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using CompanyEmployees.Core.Domain.ConfigurationModels;
 using CompanyEmployees.Core.Domain.Entities;
 using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Infrastructure.Persistence.Repositories;
 using LoggingService;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace CompanyEmployees.Core.Services
 {
@@ -14,7 +15,7 @@ namespace CompanyEmployees.Core.Services
         private readonly Lazy<IEmployeeService> _employeeService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper, IEmployeeLinks employeeLinks,
-            UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, RoleManager<IdentityRole> roleManager)
         {
             _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper, employeeLinks));
