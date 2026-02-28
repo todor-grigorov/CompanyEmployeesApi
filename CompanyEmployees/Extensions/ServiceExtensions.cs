@@ -6,8 +6,10 @@ using CompanyEmployees.Core.Services.Abstractions;
 using CompanyEmployees.Infrastructure.Persistence;
 using CompanyEmployees.Infrastructure.Persistence.Repositories;
 using CompanyEmployees.Infrastructure.Presentation.Controllers;
+using HealthChecks.UI.Client;
 using LoggingService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -194,5 +196,18 @@ namespace CompanyEmployees.Extensions
         public static void AddJwtConfiguration(this IServiceCollection services,
             IConfiguration configuration) => services
                 .Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
+
+        public static void ConfigureHealthChecks(this IServiceCollection services)
+        {
+            services.AddHealthChecks();
+        }
+
+        public static void ConfigureHealthChecksEndpoints(this WebApplication app)
+        {
+            app.MapHealthChecks("/health", new HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+        }
     }
 }
