@@ -38,6 +38,7 @@ builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddJwtConfiguration(builder.Configuration);
+builder.Services.ConfigureHealthChecks();
 
 NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
     new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
@@ -83,6 +84,7 @@ if (app.Environment.IsProduction())
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+app.ConfigureHealthChecksEndpoints();
 app.UseStaticFiles();
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
