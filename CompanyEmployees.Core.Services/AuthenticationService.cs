@@ -25,13 +25,13 @@ namespace CompanyEmployees.Core.Services
         private User? _user;
 
         public AuthenticationService(ILoggerManager logger, IMapper mapper,
-            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, RoleManager<IdentityRole> roleManager)
+            UserManager<User> userManager, IOptionsMonitor<JwtConfiguration> configuration, RoleManager<IdentityRole> roleManager)
         {
             _logger = logger;
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
-            _jwtConfiguration = configuration.Value;
+            _jwtConfiguration = configuration.CurrentValue;
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
