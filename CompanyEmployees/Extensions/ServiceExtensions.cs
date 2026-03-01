@@ -197,9 +197,11 @@ namespace CompanyEmployees.Extensions
             IConfiguration configuration) => services
                 .Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
 
-        public static void ConfigureHealthChecks(this IServiceCollection services)
+        public static void ConfigureHealthChecks(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddHealthChecks();
+            services.AddHealthChecks()
+                .AddNpgSql(configuration.GetConnectionString("postgresConnection")!, name: "Sql Health");
         }
 
         public static void ConfigureHealthChecksEndpoints(this WebApplication app)
