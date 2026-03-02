@@ -211,6 +211,12 @@ namespace CompanyEmployees.Extensions
             {
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
+
+            app.MapHealthChecks("/health/custom", new HealthCheckOptions
+            {
+                Predicate = reg => reg.Tags.Contains("custom"),
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
         }
     }
 }
