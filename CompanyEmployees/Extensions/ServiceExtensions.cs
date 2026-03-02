@@ -203,6 +203,9 @@ namespace CompanyEmployees.Extensions
             services.AddHealthChecks()
                 .AddNpgSql(configuration.GetConnectionString("postgresConnection")!, name: "Sql Health", tags: ["database"])
                 .AddCheck<CustomHealthCheck>("CustomHealthCheck", tags: ["custom"]);
+
+            services.AddHealthChecksUI()
+                .AddInMemoryStorage();
         }
 
         public static void ConfigureHealthChecksEndpoints(this WebApplication app)
@@ -217,6 +220,8 @@ namespace CompanyEmployees.Extensions
                 Predicate = reg => reg.Tags.Contains("custom"),
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
+
+            app.MapHealthChecksUI();
         }
     }
 }
