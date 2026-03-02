@@ -201,7 +201,8 @@ namespace CompanyEmployees.Extensions
             IConfiguration configuration)
         {
             services.AddHealthChecks()
-                .AddNpgSql(configuration.GetConnectionString("postgresConnection")!, name: "Sql Health");
+                .AddNpgSql(configuration.GetConnectionString("postgresConnection")!, name: "Sql Health", tags: ["database"])
+                .AddCheck<CustomHealthCheck>("CustomHealthCheck", tags: ["custom"]);
         }
 
         public static void ConfigureHealthChecksEndpoints(this WebApplication app)
