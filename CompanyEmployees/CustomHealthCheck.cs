@@ -2,7 +2,7 @@
 
 namespace CompanyEmployees
 {
-    public class CustomHealthCheck
+    public class CustomHealthCheck : IHealthCheck
     {
         private Random _random = new Random();
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
