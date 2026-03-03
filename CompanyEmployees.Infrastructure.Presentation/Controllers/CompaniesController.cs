@@ -59,8 +59,19 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             return Ok(company);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// Creates a newly created company
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns>A newly created company</returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
+        /// <response code="422">If the model is invalid</response>
+        [HttpPost(Name = "CreateCompany")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company, CancellationToken ct)
         {
             var createdCompany = await _service.CompanyService.CreateCompanyAsync(company, ct);
