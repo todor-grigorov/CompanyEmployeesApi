@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Threading.RateLimiting;
 
@@ -222,6 +223,15 @@ namespace CompanyEmployees.Extensions
             });
 
             app.MapHealthChecksUI();
+        }
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo { Title = "Company/Employees API", Version = "v1" });
+                s.SwaggerDoc("v2", new OpenApiInfo { Title = "Company/Employees API", Version = "v2" });
+            });
         }
     }
 }
