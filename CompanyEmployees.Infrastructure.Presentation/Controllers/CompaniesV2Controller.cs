@@ -5,6 +5,7 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
 {
     [Route("api/{v:apiversion}/companies")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class CompaniesV2Controller : ControllerBase
     {
         private readonly IServiceManager _service;
