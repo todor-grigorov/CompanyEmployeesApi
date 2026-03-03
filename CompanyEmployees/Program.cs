@@ -25,7 +25,7 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 //builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureOutputCaching();
-builder.Services.ConfigureRateLimitingOptions();
+//builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddProblemDetails();
 builder.Services
     .AddValidatorsFromAssemblyContaining(typeof(EmployeeForManipulationDtoValidator<EmployeeForManipulationDto>));
@@ -92,7 +92,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
-app.UseRateLimiter();
+//app.UseRateLimiter();
 app.UseCors("CorsPolicy");
 //app.UseResponseCaching();
 app.UseOutputCache();
