@@ -25,6 +25,10 @@ namespace CompanyEmployees.Infrastructure.Presentation.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Gets the list of all companies
+        /// </summary>
+        /// <returns>The companies list</returns>
         [HttpGet(Name = "GetCompanies")]
         [EnableRateLimiting("SpecificPolicy")]
         //[Authorize(Roles = "Manager")]
