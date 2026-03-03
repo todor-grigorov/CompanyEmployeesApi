@@ -100,6 +100,13 @@ app.UseOutputCache();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseSwagger();
+app.UseSwaggerUI(s =>
+{
+    s.SwaggerEndpoint("/swagger/v2/swagger.json", "Company/Employees API v2");
+    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Company/Employees API v1");
+});
+
 app.MapControllers();
 
 app.Run();
