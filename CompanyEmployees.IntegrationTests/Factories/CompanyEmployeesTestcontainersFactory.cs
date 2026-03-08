@@ -29,6 +29,7 @@ namespace CompanyEmployees.IntegrationTests.Factories
                 .WithEnvironment("POSTGRES_DB", Database)
                 .WithEnvironment("POSTGRES_USER", Username)
                 .WithEnvironment("POSTGRES_PASSWORD", Password)
+                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(PostgresPort))
                 .Build();
         }
 
