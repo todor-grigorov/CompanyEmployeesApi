@@ -25,7 +25,7 @@ namespace CompanyEmployees.IntegrationTests.Factories
 
             _postgresContainer = new ContainerBuilder()
                 .WithImage("postgres:latest")
-                .WithPortBinding(PostgresPort)
+                .WithPortBinding(PostgresPort, true)
                 .WithEnvironment("POSTGRES_DB", Database)
                 .WithEnvironment("POSTGRES_USER", Username)
                 .WithEnvironment("POSTGRES_PASSWORD", Password)
