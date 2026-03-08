@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CompanyEmployees.IntegrationTests.Factories
 {
-    public class CompanyEmployeesTestcontainersFactory : WebApplicationFactory<Program>
+    public class CompanyEmployeesTestcontainersFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private const string Database = "master";
         private const string Username = "sa";
@@ -57,6 +57,16 @@ namespace CompanyEmployees.IntegrationTests.Factories
                     throw;
                 }
             });
+        }
+
+        public async Task InitializeAsync()
+        {
+            await _postgresContainer.StartAsync();
+        }
+
+        public new async Task DisposeAsync()
+        {
+            await _postgresContainer.DisposeAsync();
         }
     }
     public partial class Program { }
