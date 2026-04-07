@@ -71,5 +71,4 @@ namespace CompanyEmployees.IntegrationTests.Factories
             await _postgresContainer.DisposeAsync();
         }
     }
-    public partial class Program { }
 }
