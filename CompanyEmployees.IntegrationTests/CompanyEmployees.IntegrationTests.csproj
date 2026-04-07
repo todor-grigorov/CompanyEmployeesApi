@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Testcontainers" Version="4.0.0" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.0.0" />
-	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
 	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
 	<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="xunit" Version="2.9.2" />
@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CompanyEmployees.Infrastructure.Persistence\CompanyEmployees.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\CompanyEmployees\CompanyEmployees.csproj" />
   </ItemGroup>
 
   <ItemGroup>
