@@ -38,12 +38,7 @@ namespace CompanyEmployees.IntegrationTests.Tests
         public async Task WhenCreateNewEntityRequested_ThenReturns201Created()
         {
             // Arrange
-            var company = new CompanyForCreationDto
-            {
-                Name = "Test",
-                Address = "TestAddress",
-                Country = "USA"
-            };
+            var company = CreateTestCompany();
 
             // Act
             var response = await _client.PostAsJsonAsync(CompaniesUrl, company);
@@ -67,13 +62,7 @@ namespace CompanyEmployees.IntegrationTests.Tests
         public async Task WhenDeleteEntityReuqested_ThenReturns204()
         {
             //Arrange
-            var company = new CompanyForCreationDto
-            {
-                Name = "Test2",
-                Address = "TestAddress2",
-                Country = "Canada"
-            };
-
+            var company = CreateTestCompany();
 
             //Act
             var response = await _client.PostAsJsonAsync(CompaniesUrl, company);
@@ -84,9 +73,39 @@ namespace CompanyEmployees.IntegrationTests.Tests
             var deleteResponse = await _client.DeleteAsync(url);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+            deleteResponse.EnsureSuccessStatusCode(); // Status Code 200-299
+            Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
         }
+
+        [Fact]
+        public async Task WhenUpdateEntityRequested_ThenReturns204()
+        {
+            //Arrange
+            var company = CreateTestCompany();
+
+            //Act
+            var response = await _client.PostAsJsonAsync(CompaniesUrl, company);
+            var location = response.Headers.Location;
+            Assert.NotNull(location);
+            var companyId = ExtractGuidFromLocation(location);
+            var url = $"{CompaniesUrl}/{companyId}";
+            company.Name = "UpdatedName";
+            var updateResponse = await _client.PutAsJsonAsync(url, company);
+
+            updateResponse.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
+        }
+
+        public CompanyForCreationDto CreateTestCompany()
+        {
+            return new CompanyForCreationDto
+            {
+                Name = "Test",
+                Address = "TestAddress",
+                Country = "USA"
+            };
+        }
+
 
         public string ExtractGuidFromLocation(Uri location)
         {
