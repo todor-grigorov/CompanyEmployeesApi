@@ -48,11 +48,19 @@ namespace CompanyEmployees.IntegrationTests.Tests
             // Act
             var response = await _client.PostAsJsonAsync(CompaniesUrl, company);
             var location = response.Headers.Location;
+            Assert.NotNull(location);
+            var companyResponse = await _client.GetAsync(location);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-            Assert.NotNull(location);
+
+            var result = await companyResponse.Content.ReadFromJsonAsync<CompanyDto>();
+            Assert.IsType<CompanyDto>(result);
+            Assert.False(string.IsNullOrEmpty(result.Name));
+            Assert.False(string.IsNullOrEmpty(result.FullAddress));
+            Assert.Equal(company.Name, result.Name);
+            Assert.Equal($"{company.Address} {company.Country}", result.FullAddress);
         }
     }
 }
