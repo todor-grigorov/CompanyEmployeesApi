@@ -2,7 +2,7 @@
 
 namespace Shared.DataTransferObjects
 {
-    public abstract record CompanyForManipulationDto 
+    public abstract record CompanyForManipulationDto
     {
         [Required(ErrorMessage = "Company name is a required field.")]
         [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters.")]
@@ -14,6 +14,6 @@ namespace Shared.DataTransferObjects
 
         public string Country { get; set; }
 
-        public IEnumerable<EmployeeForManipulationDto> Employees { get; set; }
+        public IEnumerable<EmployeeForManipulationDto>? Employees { get; set; }
     }
 }
