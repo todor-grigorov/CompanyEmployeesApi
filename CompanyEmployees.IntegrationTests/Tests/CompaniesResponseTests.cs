@@ -62,5 +62,37 @@ namespace CompanyEmployees.IntegrationTests.Tests
             Assert.Equal(company.Name, result.Name);
             Assert.Equal($"{company.Address} {company.Country}", result.FullAddress);
         }
+
+        [Fact]
+        public async Task WhenDeleteEntityReuqested_ThenReturns204()
+        {
+            //Arrange
+            var company = new CompanyForCreationDto
+            {
+                Name = "Test2",
+                Address = "TestAddress2",
+                Country = "Canada"
+            };
+
+
+            //Act
+            var response = await _client.PostAsJsonAsync(CompaniesUrl, company);
+            var location = response.Headers.Location;
+            Assert.NotNull(location);
+            var companyId = ExtractGuidFromLocation(location);
+            var url = $"{CompaniesUrl}/{companyId}";
+            var deleteResponse = await _client.DeleteAsync(url);
+
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        public string ExtractGuidFromLocation(Uri location)
+        {
+            var idSegment = location!.Segments.Last().Trim('/');
+            var parsed = Guid.TryParse(idSegment, out var companyId);
+            return companyId.ToString();
+        }
     }
 }
