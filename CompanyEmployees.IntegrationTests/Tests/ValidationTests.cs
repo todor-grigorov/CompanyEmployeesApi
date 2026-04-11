@@ -1,5 +1,7 @@
 ﻿using CompanyEmployees.IntegrationTests.Factories;
+using Shared.DataTransferObjects;
 using System.Net;
+using System.Net.Http.Json;
 
 namespace CompanyEmployees.IntegrationTests.Tests
 {
@@ -21,6 +23,23 @@ namespace CompanyEmployees.IntegrationTests.Tests
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task WhenModelStateInvalidOnCreation_ThenReturns422UnprocessableEntity()
+        {
+            // Arrange
+            var company = new CompanyForCreationDto
+            {
+                Address = "TestAddress",
+                Country = "USA"
+            };
+
+            // Act
+            var response = await _client.PostAsJsonAsync(CompaniesUrl, company);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
         }
     }
 }
